@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Thor Volume Link</string>
-    <string name="app_name_lite">Thor Volume Link Lite</string>
-    <string name="app_title">Thor Volume Link</string>
-    <string name="app_subtitle">为 AYN Thor 提供双屏音量目标切换与同步控制。</string>
+    <string name="app_name">Duo Volume Link</string>
+    <string name="app_name_lite">Duo Volume Link Lite</string>
+    <string name="app_title">Duo Volume Link</string>
+    <string name="app_subtitle">为 Retroid Pocket Duo 与 AYN Thor 提供双屏音量目标切换与同步控制。</string>
     <string name="service_description">监听模式切换键和系统音量键，根据当前模式控制主屏、副屏、双屏或最近交互的屏幕。服务不会读取屏幕内容。</string>
 
     <string name="section_status">服务状态</string>
@@ -16,7 +16,7 @@
     <string name="backend_method_shizuku">Shizuku</string>
     <string name="backend_method_root">Root</string>
     <string name="root_mode_title">使用 Root 权限？</string>
-    <string name="root_mode_message">Root 会授予应用较高的系统权限。Thor Volume Link 仅用它读写 secondary_screen_volume_level。选择 Root 后，应用不会再使用 Shizuku。</string>
+    <string name="root_mode_message">Root 会授予应用较高的系统权限。Duo Volume Link 仅用它读写 secondary_screen_volume_level。选择 Root 后，应用不会再使用 Shizuku。</string>
     <string name="use_root">使用 Root</string>
     <string name="apply">应用</string>
     <string name="open_accessibility">按键服务设置</string>
@@ -155,7 +155,7 @@
     <string name="error_switch_mode">切换音量键模式失败</string>
     <string name="error_key_event">处理实体按键失败（keyCode=%1$d）</string>
     <string name="error_vibration">触觉反馈失败</string>
-    <string name="error_track_focus">读取 AYN 焦点状态失败</string>
+    <string name="error_track_focus">读取固件焦点状态失败</string>
     <string name="error_open_accessibility">打开无障碍设置失败</string>
     <string name="error_check_accessibility">检查按键服务状态失败</string>
     <string name="no_recent_errors">没有最近错误</string>
@@ -191,7 +191,7 @@
     <string name="night_dark">深色</string>
     <string name="setting_value">%1$s\n%2$s</string>
     <string name="section_about">关于</string>
-    <string name="about_project">关于 Thor Volume Link</string>
+    <string name="about_project">关于 Duo Volume Link</string>
     <string name="developer_tools">开发者工具</string>
     <string name="developer_tools_description">用于排查设备问题和开发测试的诊断功能。</string>
     <string name="open_developer_tools">打开开发者工具</string>
@@ -206,7 +206,7 @@
     <string name="disable_developer_tools_confirmation">这会隐藏“开发者工具”设置。再次连续点击版本号七次即可重新启用。</string>
     <string name="disable">停用</string>
     <string name="focus_debug_title">焦点诊断</string>
-    <string name="focus_debug_subtitle">读取 AYN 的 focus_change 值，并可选择实时监听变化。</string>
+    <string name="focus_debug_subtitle">读取固件的 focus_change 值，并可选择实时监听变化。</string>
     <string name="focus_debug_live_listener">实时监听</string>
     <string name="focus_debug_listener_running">正在运行并记录变化。</string>
     <string name="focus_debug_listener_stopped">已停止，仍可手动刷新。</string>
@@ -261,7 +261,7 @@
     <string name="update_network_error">请检查网络连接后重试。</string>
     <string name="view_release">查看 Release</string>
     <string name="later">稍后</string>
-    <string name="project_description">面向 AYN Thor 的独立开源双屏音量控制工具。</string>
+    <string name="project_description">面向 Retroid Pocket Duo 与 AYN Thor 的独立开源双屏音量控制工具，基于 Thor Volume Link。</string>
     <string name="about_version">版本 %1$s · %2$s</string>
     <string name="section_updates">版本更新</string>
     <string name="source_code_title">源代码</string>
@@ -271,7 +271,7 @@
     <string name="license_summary">Copyright © 2026 Thor Volume Link contributors</string>
     <string name="privacy_title">隐私说明</string>
     <string name="privacy_description">无障碍服务只处理已配置的实体按键和音量键，不读取屏幕文字、触摸内容或其他应用数据。</string>
-    <string name="independent_project">Thor Volume Link 是一个独立社区项目。</string>
+    <string name="independent_project">Duo Volume Link 是一个独立社区项目。</string>
     <string name="open_github">打开 GitHub</string>
     <string name="link_open_failed">无法打开链接。</string>
     <string name="error_open_link">打开项目链接失败</string>

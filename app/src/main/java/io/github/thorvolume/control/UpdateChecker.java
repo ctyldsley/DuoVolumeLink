@@ -85,7 +85,7 @@ final class UpdateChecker {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/vnd.github+json");
             connection.setRequestProperty("X-GitHub-Api-Version", "2022-11-28");
-            connection.setRequestProperty("User-Agent", "ThorVolumeLink/" + current);
+            connection.setRequestProperty("User-Agent", "DuoVolumeLink/" + current);
 
             int code = connection.getResponseCode();
             if (code == HttpURLConnection.HTTP_NOT_FOUND) {

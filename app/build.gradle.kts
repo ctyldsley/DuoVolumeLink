@@ -39,7 +39,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.github.thorvolume.control"
+        applicationId = "io.github.duovolume.control"
         minSdk = 21
         targetSdk = 35
         versionCode = 6

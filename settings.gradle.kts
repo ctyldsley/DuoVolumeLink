@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ThorVolumeLink"
+rootProject.name = "DuoVolumeLink"
 include(":app")

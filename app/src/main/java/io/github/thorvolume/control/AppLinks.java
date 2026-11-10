@@ -17,7 +17,7 @@ final class AppLinks {
         boolean trusted = "https".equalsIgnoreCase(parsed.getScheme())
                 && "github.com".equalsIgnoreCase(parsed.getHost())
                 && parsed.getPath() != null
-                && parsed.getPath().startsWith("/pth2000/ThorVolumeLink/releases/");
+                && parsed.getPath().startsWith("/ctyldsley/DuoVolumeLink/releases/");
         open(activity, trusted ? url : activity.getString(R.string.latest_release_url));
     }
 

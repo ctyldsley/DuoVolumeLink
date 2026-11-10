@@ -1,12 +1,27 @@
-# Thor Volume Link
+# Duo Volume Link
 
 [简体中文](README.zh-CN.md) · English
 
-[![Android CI](https://github.com/pth2000/ThorVolumeLink/actions/workflows/android.yml/badge.svg)](https://github.com/pth2000/ThorVolumeLink/actions/workflows/android.yml)
+[![Android CI](https://github.com/ctyldsley/DuoVolumeLink/actions/workflows/android.yml/badge.svg)](https://github.com/ctyldsley/DuoVolumeLink/actions/workflows/android.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-5.0%2B-3DDC84?logo=android&logoColor=white)](#editions)
 
-Thor Volume Link is an open-source volume controller for the dual-screen AYN Thor handheld. It routes the hardware volume keys to the primary screen, the secondary screen, or both screens at a linked relative level.
+Duo Volume Link is an open-source volume controller for dual-screen handhelds: the Retroid Pocket Duo / Duo Lite and the AYN Thor. It routes the hardware volume keys to the primary screen, the secondary screen, or both screens at a linked relative level.
+
+It is a fork of [Thor Volume Link](https://github.com/pth2000/ThorVolumeLink) by pth2000, adapted so it installs and runs on the Android 15/16 firmware of the Retroid Pocket Duo family.
+
+## Retroid Pocket Duo status
+
+Retroid Pocket Duo support is **experimental and not yet confirmed on hardware**. The Duo firmware appears to share parts of its dual-screen assistant with the AYN Thor, so this fork assumes it also stores the lower-screen volume in `Settings.System: secondary_screen_volume_level`. The main screen shows whether that setting was found.
+
+If the secondary volume shows as unavailable on your device, open **About**, tap the version seven times, then open **Settings → Developer tools** and use **Copy report**. The report lists the device model, Android version and every volume/screen-related `Settings.System` key the firmware exposes; attach it to an issue so the right key can be added.
+
+Changes from upstream:
+
+- Separate package names, so it installs alongside Thor Volume Link
+- Standard edition opts out of Android 15+ forced edge-to-edge so the UI is not drawn under the system bars
+- Developer tools report includes a device and settings probe
+- Install instructions for Lite on Android 14 and newer (see below)
 
 ## Features
 
@@ -33,19 +48,37 @@ All four modes support short presses and native-style press-and-hold adjustment.
 
 | Edition | Package | Minimum Android | Secondary-volume backend | Recommended for |
 | --- | --- | ---: | --- | --- |
-| Lite | `io.github.thorvolume.control.lite` | Android 5.0 / API 21 | `Settings.System` compatibility path | Recommended for the stock AYN Thor firmware |
-| Standard | `io.github.thorvolume.control` | Android 6.0 / API 23 | Authorized backend | Users who prefer a modern target SDK |
+| Lite | `io.github.duovolume.control.lite` | Android 5.0 / API 21 | `Settings.System` compatibility path | AYN Thor (Android 13); Retroid Pocket Duo only via an adb install |
+| Standard | `io.github.duovolume.control` | Android 6.0 / API 23 | Shizuku or Root | Retroid Pocket Duo / Duo Lite (Android 15/16), installs normally |
 
-Lite is the recommended edition for the stock AYN Thor firmware. It only needs Android's modify-system-settings approval and does not depend on a companion app or service. Lite intentionally targets SDK 22: AOSP keeps a compatibility path that lets apps targeting Android 5.1 or lower modify custom `Settings.System` entries, while apps targeting newer SDK levels are rejected. AYN's `secondary_screen_volume_level` is such a vendor-defined entry.
+Lite is the recommended edition for the stock AYN Thor firmware (Android 13). It only needs Android's modify-system-settings approval and does not depend on a companion app or service. Lite intentionally targets SDK 22: AOSP keeps a compatibility path that lets apps targeting Android 5.1 or lower modify custom `Settings.System` entries, while apps targeting newer SDK levels are rejected. AYN's `secondary_screen_volume_level` is such a vendor-defined entry.
 
 See the relevant [AOSP SettingsProvider implementation](https://android.googlesource.com/platform/frameworks/base/+/master/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java) and Android's [`WRITE_SETTINGS` documentation](https://developer.android.com/reference/android/provider/Settings.System#canWrite(android.content.Context)).
 
 Standard targets a modern Android SDK and uses additional authorization to provide the same secondary-volume controls. It is intended for users who value current Android security and compatibility behavior; it is not a more feature-complete edition. The editions can be installed together, but do not enable both accessibility key services at the same time.
 
+### Installing Lite on Android 14 and newer (Retroid Pocket Duo)
+
+Android 14 refuses to install apps that target SDK 22 or lower, and Android 15/16 raise that floor to SDK 24. Tapping the Lite APK on a Retroid Pocket Duo therefore fails with "App not installed as app isn't compatible". Lite cannot simply raise its target SDK: the `Settings.System` compatibility path it relies on only exists for apps targeting SDK 22 or lower.
+
+The block is an installer policy, not a runtime one, and adb can bypass it:
+
+```bash
+adb install --bypass-low-target-sdk-block DuoVolumeLink-lite.apk
+```
+
+With no computer to hand, the same works on the device from any shell with adb privileges (for example a Shizuku or wireless-debugging terminal app):
+
+```bash
+pm install --bypass-low-target-sdk-block /data/local/tmp/DuoVolumeLink-lite.apk
+```
+
+Once installed this way Lite needs nothing else running, and keeps working across reboots. Android shows a one-off "built for an older version of Android" notice on first launch. If you would rather not use adb at all, install Standard instead.
+
 ## Getting started
 
-1. Install Lite first.
-2. Open Thor Volume Link and allow modify-system-settings access.
+1. Install an edition: Lite on the AYN Thor; on the Retroid Pocket Duo either Standard, or Lite through adb as described above.
+2. Open Duo Volume Link and allow modify-system-settings access.
 3. Enable the app's key service in Android Accessibility settings.
 4. Open **Settings → Key & controls** and decide whether a hardware key should switch modes.
 5. Select Primary, Secondary, Linked, or Follow focus on the main screen.
@@ -67,14 +100,14 @@ The accessibility service filters hardware keys and uses only the display ID att
 
 ## How it works
 
-AYN Thor firmware exposes the secondary-screen volume through:
+AYN Thor firmware (and, as far as is known, the Retroid Pocket Duo firmware) exposes the secondary-screen volume through:
 
 ```text
 Settings.System: secondary_screen_volume_level
 Range: 0–15
 ```
 
-Follow Focus observes the AYN firmware’s `Settings.System: focus_change` value, which increments as focus changes between displays. After a reboot, the app invalidates the old odd/even mapping and calibrates it once from a reliable display source. Standard can use the current system focus state; the app window and accessibility display events provide fallback anchors. Once calibrated, only `focus_change` is used until the next reboot. Until an anchor is available, the app safely falls back to the primary display. The target is locked for the duration of each volume-key press.
+Follow Focus observes the firmware’s `Settings.System: focus_change` value, which increments as focus changes between displays. After a reboot, the app invalidates the old odd/even mapping and calibrates it once from a reliable display source. Standard can use the current system focus state; the app window and accessibility display events provide fallback anchors. Once calibrated, only `focus_change` is used until the next reboot. Until an anchor is available, the app safely falls back to the primary display. The target is locked for the duration of each volume-key press.
 
 Lite accesses this setting through Android's target-SDK compatibility behavior. Standard reads and writes it through either an official Shizuku UserService or a Root shell powered by [libsu](https://github.com/topjohnwu/libsu). It never uses both backends at once. Shared mode, preference, accessibility-service, and UI code lives in `app/src/main`; backend-specific code lives in `app/src/lite` and `app/src/standard`.
 
@@ -89,8 +122,8 @@ Requirements:
 Clone the repository and build both editions:
 
 ```bash
-git clone https://github.com/pth2000/ThorVolumeLink.git
-cd ThorVolumeLink
+git clone https://github.com/ctyldsley/DuoVolumeLink.git
+cd DuoVolumeLink
 ./gradlew assembleLiteDebug assembleStandardDebug
 ```
 
@@ -115,6 +148,6 @@ Run static checks with:
 
 ## License
 
-Thor Volume Link is available under the [MIT License](LICENSE).
+Duo Volume Link is available under the [MIT License](LICENSE).
 
 The Standard edition uses Shizuku API under the MIT License and libsu under the Apache License 2.0. See [third-party notices](docs/THIRD_PARTY_NOTICES.md).

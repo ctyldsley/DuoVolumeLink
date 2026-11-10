@@ -34,11 +34,11 @@ jobs:
           test -n "$KEYSTORE_BASE64"
           printf '%s' "$KEYSTORE_BASE64" \
             | base64 --decode \
-            > "$RUNNER_TEMP/ThorVolumeLink-release.jks"
+            > "$RUNNER_TEMP/DuoVolumeLink-release.jks"
 
       - name: Build signed APKs
         env:
-          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/ThorVolumeLink-release.jks
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/DuoVolumeLink-release.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
@@ -54,10 +54,10 @@ jobs:
           mkdir -p dist
 
           cp app/build/outputs/apk/standard/release/app-standard-release.apk \
-            "dist/ThorVolumeLink-${GITHUB_REF_NAME}-standard.apk"
+            "dist/DuoVolumeLink-${GITHUB_REF_NAME}-standard.apk"
 
           cp app/build/outputs/apk/lite/release/app-lite-release.apk \
-            "dist/ThorVolumeLink-${GITHUB_REF_NAME}-lite.apk"
+            "dist/DuoVolumeLink-${GITHUB_REF_NAME}-lite.apk"
 
           APKSIGNER="$(find "$ANDROID_SDK_ROOT/build-tools" \
             -type f -name apksigner | sort -V | tail -n 1)"
@@ -79,7 +79,7 @@ jobs:
             dist/*
             --verify-tag
             --generate-notes
-            --title "Thor Volume Link $GITHUB_REF_NAME"
+            --title "Duo Volume Link $GITHUB_REF_NAME"
           )
 
           if [[ "$GITHUB_REF_NAME" == *-* ]]; then
@@ -91,4 +91,4 @@ jobs:
       - name: Remove signing key
         if: always()
         shell: bash
-        run: rm -f "$RUNNER_TEMP/ThorVolumeLink-release.jks"
+        run: rm -f "$RUNNER_TEMP/DuoVolumeLink-release.jks"

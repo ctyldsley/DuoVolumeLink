@@ -116,7 +116,7 @@ final class FeedbackOverlay {
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         params.y = dp(72);
-        params.setTitle("Thor Volume Link feedback");
+        params.setTitle("Duo Volume Link feedback");
         return params;
     }
 

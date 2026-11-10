@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Thor Volume Link</string>
-    <string name="app_name_lite">Thor Volume Link Lite</string>
-    <string name="app_title">Thor Volume Link</string>
-    <string name="app_subtitle">Dual-screen volume routing and synchronization for AYN Thor.</string>
+    <string name="app_name">Duo Volume Link</string>
+    <string name="app_name_lite">Duo Volume Link Lite</string>
+    <string name="app_title">Duo Volume Link</string>
+    <string name="app_subtitle">Dual-screen volume routing and synchronization for the Retroid Pocket Duo and AYN Thor.</string>
     <string name="service_description">Handles the mode-switch key and volume keys to control the primary screen, secondary screen, both screens, or the most recently interacted-with screen. The service does not inspect screen content.</string>
 
     <string name="section_status">Service status</string>
@@ -16,7 +16,7 @@
     <string name="backend_method_shizuku">Shizuku</string>
     <string name="backend_method_root">Root</string>
     <string name="root_mode_title">Use Root access?</string>
-    <string name="root_mode_message">Root grants broad system privileges. Thor Volume Link uses it only to read and write secondary_screen_volume_level. While Root is selected, Shizuku is not used.</string>
+    <string name="root_mode_message">Root grants broad system privileges. Duo Volume Link uses it only to read and write secondary_screen_volume_level. While Root is selected, Shizuku is not used.</string>
     <string name="use_root">Use Root</string>
     <string name="apply">Apply</string>
     <string name="open_accessibility">Key service settings</string>
@@ -155,7 +155,7 @@
     <string name="error_switch_mode">Changing volume-key mode failed</string>
     <string name="error_key_event">Handling hardware key failed (keyCode=%1$d)</string>
     <string name="error_vibration">Haptic feedback failed</string>
-    <string name="error_track_focus">Reading AYN focus state failed</string>
+    <string name="error_track_focus">Reading the firmware focus state failed</string>
     <string name="error_open_accessibility">Opening Accessibility settings failed</string>
     <string name="error_check_accessibility">Checking key-service status failed</string>
     <string name="no_recent_errors">No recent errors</string>
@@ -191,7 +191,7 @@
     <string name="night_dark">Dark</string>
     <string name="setting_value">%1$s\n%2$s</string>
     <string name="section_about">About</string>
-    <string name="about_project">About Thor Volume Link</string>
+    <string name="about_project">About Duo Volume Link</string>
     <string name="developer_tools">Developer tools</string>
     <string name="developer_tools_description">Device diagnostics intended for troubleshooting and development.</string>
     <string name="open_developer_tools">Open developer tools</string>
@@ -207,7 +207,7 @@
     <string name="disable_developer_tools_confirmation">This hides the Developer tools section. You can unlock it again by tapping the version seven times.</string>
     <string name="disable">Disable</string>
     <string name="focus_debug_title">Focus diagnostics</string>
-    <string name="focus_debug_subtitle">Read AYN’s focus_change value and optionally observe changes in real time.</string>
+    <string name="focus_debug_subtitle">Read the firmware’s focus_change value and optionally observe changes in real time.</string>
     <string name="focus_debug_live_listener">Live listener</string>
     <string name="focus_debug_listener_running">Running. Changes are being recorded.</string>
     <string name="focus_debug_listener_stopped">Stopped. Manual refresh is still available.</string>
@@ -262,7 +262,7 @@
     <string name="update_network_error">Check your internet connection and try again.</string>
     <string name="view_release">View Release</string>
     <string name="later">Later</string>
-    <string name="project_description">An independent, open-source dual-screen volume controller for AYN Thor.</string>
+    <string name="project_description">An independent, open-source dual-screen volume controller for the Retroid Pocket Duo and AYN Thor, based on Thor Volume Link.</string>
     <string name="about_version">Version %1$s · %2$s</string>
     <string name="section_updates">Updates</string>
     <string name="source_code_title">Source code</string>
@@ -272,7 +272,7 @@
     <string name="license_summary">Copyright © 2026 Thor Volume Link contributors</string>
     <string name="privacy_title">Privacy</string>
     <string name="privacy_description">The accessibility service processes only configured hardware keys and volume keys. It does not read screen text, touch input, or data from other apps.</string>
-    <string name="independent_project">Thor Volume Link is an independent community project.</string>
+    <string name="independent_project">Duo Volume Link is an independent community project.</string>
     <string name="open_github">Open GitHub</string>
     <string name="link_open_failed">Unable to open the link.</string>
     <string name="error_open_link">Opening project link failed</string>
@@ -281,7 +281,7 @@
     <string name="error_save_vibration_feedback">Saving the vibration-feedback setting failed</string>
     <string name="error_feedback_overlay">Showing the key-feedback overlay failed</string>
     <string name="error_save_night_mode">Saving the appearance setting failed</string>
-    <string name="project_url" translatable="false">https://github.com/pth2000/ThorVolumeLink</string>
-    <string name="release_api_url" translatable="false">https://api.github.com/repos/pth2000/ThorVolumeLink/releases/latest</string>
-    <string name="latest_release_url" translatable="false">https://github.com/pth2000/ThorVolumeLink/releases/latest</string>
+    <string name="project_url" translatable="false">https://github.com/ctyldsley/DuoVolumeLink</string>
+    <string name="release_api_url" translatable="false">https://api.github.com/repos/ctyldsley/DuoVolumeLink/releases/latest</string>
+    <string name="latest_release_url" translatable="false">https://github.com/ctyldsley/DuoVolumeLink/releases/latest</string>
 </resources>

@@ -46,6 +46,7 @@ public final class DeveloperToolsActivity extends AppCompatActivity {
     private String observerError;
     private int notificationCount;
     private String latestReport = "";
+    private String deviceReport = "";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,6 +238,9 @@ public final class DeveloperToolsActivity extends AppCompatActivity {
                 observerState,
                 Integer.valueOf(notificationCount),
                 timestamp);
+        // The probe queries every system setting, so skip it for listener-driven refreshes.
+        if (!fromObserver || deviceReport.length() == 0) deviceReport = DeviceProbe.report(this);
+        latestReport = latestReport + "\n\n" + deviceReport;
 
         statusView.setText(readable
                 ? R.string.focus_debug_status_success
@@ -303,7 +307,7 @@ public final class DeveloperToolsActivity extends AppCompatActivity {
                     (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             if (clipboard == null) throw new IllegalStateException("Clipboard unavailable");
             String text = latestReport + "\n\n" + history.toString().trim();
-            clipboard.setPrimaryClip(ClipData.newPlainText("Thor focus diagnostics", text));
+            clipboard.setPrimaryClip(ClipData.newPlainText("Duo Volume Link diagnostics", text));
             Ui.toast(this, getString(R.string.focus_debug_copied));
         } catch (Throwable error) {
             Log.e(TAG, "Unable to copy report", error);

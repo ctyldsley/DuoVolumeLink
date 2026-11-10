@@ -1,12 +1,14 @@
-# Thor Volume Link
+# Duo Volume Link
+
+> 本项目是 [Thor Volume Link](https://github.com/pth2000/ThorVolumeLink) 的分支，增加了对 Retroid Pocket Duo / Duo Lite（Android 15/16）的实验性支持。Android 14 及以上无法直接安装 Lite，需要使用 `adb install --bypass-low-target-sdk-block`，或改用 Standard 版本。完整说明见 [English README](README.md)。
 
 简体中文 · [English](README.md)
 
-[![Android CI](https://github.com/pth2000/ThorVolumeLink/actions/workflows/android.yml/badge.svg)](https://github.com/pth2000/ThorVolumeLink/actions/workflows/android.yml)
+[![Android CI](https://github.com/ctyldsley/DuoVolumeLink/actions/workflows/android.yml/badge.svg)](https://github.com/ctyldsley/DuoVolumeLink/actions/workflows/android.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-5.0%2B-3DDC84?logo=android&logoColor=white)](#版本区别)
 
-Thor Volume Link 是一款面向双屏 Android 掌机 AYN Thor 的开源音量控制工具。它可以让实体音量键控制主屏、副屏，或按相对比例联动两块屏幕的音量。
+Duo Volume Link 是一款面向双屏 Android 掌机 AYN Thor 的开源音量控制工具。它可以让实体音量键控制主屏、副屏，或按相对比例联动两块屏幕的音量。
 
 ## 功能特性
 
@@ -33,8 +35,8 @@ Thor Volume Link 是一款面向双屏 Android 掌机 AYN Thor 的开源音量�
 
 | 版本 | 包名 | 最低 Android 版本 | 副屏音量后端 | 适用场景 |
 | --- | --- | ---: | --- | --- |
-| Lite | `io.github.thorvolume.control.lite` | Android 5.0 / API 21 | `Settings.System` 兼容路径 | AYN Thor 原厂固件用户，推荐使用 |
-| Standard | `io.github.thorvolume.control` | Android 6.0 / API 23 | 授权后端 | 倾向现代目标 SDK 的用户 |
+| Lite | `io.github.duovolume.control.lite` | Android 5.0 / API 21 | `Settings.System` 兼容路径 | AYN Thor 原厂固件用户，推荐使用 |
+| Standard | `io.github.duovolume.control` | Android 6.0 / API 23 | 授权后端 | 倾向现代目标 SDK 的用户 |
 
 Lite 是面向 AYN Thor 原厂固件的推荐版本。它只需要 Android 的“修改系统设置”授权，无需配合其他应用或服务。Lite 有意将目标 SDK 保持在 22：AOSP 为目标版本不高于 Android 5.1 的应用保留了兼容路径，允许它们修改自定义 `Settings.System` 项；目标 SDK 更高的应用则会被系统拒绝。AYN 的 `secondary_screen_volume_level` 正是厂商自定义设置项。
 
@@ -45,7 +47,7 @@ Standard 保持现代目标 SDK，通过额外授权完成相同的副屏音量�
 ## 使用方法
 
 1. 优先安装 Lite。
-2. 打开 Thor Volume Link，允许应用修改系统设置。
+2. 打开 Duo Volume Link，允许应用修改系统设置。
 3. 在 Android 无障碍设置中启用本应用的按键服务。
 4. 打开**设置 → 按键与控制**，选择是否使用实体键切换模式。
 5. 在主页面选择主屏、副屏、双屏联动或跟随焦点模式。
@@ -89,8 +91,8 @@ Lite 通过 Android 的目标 SDK 兼容行为访问该设置；Standard 可通�
 克隆仓库并构建两个版本：
 
 ```bash
-git clone https://github.com/pth2000/ThorVolumeLink.git
-cd ThorVolumeLink
+git clone https://github.com/ctyldsley/DuoVolumeLink.git
+cd DuoVolumeLink
 ./gradlew assembleLiteDebug assembleStandardDebug
 ```
 
@@ -115,6 +117,6 @@ app/build/outputs/apk/standard/debug/
 
 ## 开源许可证
 
-Thor Volume Link 基于 [MIT License](LICENSE) 开源。
+Duo Volume Link 基于 [MIT License](LICENSE) 开源。
 
 Standard 使用采用 MIT License 的 Shizuku API，以及采用 Apache License 2.0 的 libsu。详见[第三方软件声明](docs/THIRD_PARTY_NOTICES.md)。
