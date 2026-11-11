@@ -54,10 +54,10 @@ All four modes support short presses and native-style press-and-hold adjustment.
 
 | Edition | Package | Minimum Android | Secondary-volume backend | Recommended for |
 | --- | --- | ---: | --- | --- |
-| Lite | `io.github.duovolume.control.lite` | Android 5.0 / API 21 | `Settings.System` compatibility path | AYN Thor (Android 13); Retroid Pocket Duo only via an adb install |
-| Standard | `io.github.duovolume.control` | Android 6.0 / API 23 | Shizuku or Root | Retroid Pocket Duo / Duo Lite (Android 15/16), installs normally |
+| Lite | `io.github.duovolume.control.lite` | Android 5.0 / API 21 | `Settings.System` compatibility path | Retroid Pocket Duo (confirmed, installed through adb); AYN Thor (Android 13) |
+| Standard | `io.github.duovolume.control` | Android 6.0 / API 23 | Shizuku or Root | Retroid Pocket Duo / Duo Lite users who cannot use adb; installs normally, not yet confirmed on the Duo |
 
-Lite is the recommended edition for the stock AYN Thor firmware (Android 13). It only needs Android's modify-system-settings approval and does not depend on a companion app or service. Lite intentionally targets SDK 22: AOSP keeps a compatibility path that lets apps targeting Android 5.1 or lower modify custom `Settings.System` entries, while apps targeting newer SDK levels are rejected. AYN's `secondary_screen_volume_level` is such a vendor-defined entry.
+Lite is the recommended edition on both the Retroid Pocket Duo and the stock AYN Thor firmware (Android 13). It only needs Android's modify-system-settings approval and does not depend on a companion app or service. Lite intentionally targets SDK 22: AOSP keeps a compatibility path that lets apps targeting Android 5.1 or lower modify custom `Settings.System` entries, while apps targeting newer SDK levels are rejected. `secondary_screen_volume_level` is such a vendor-defined entry on both devices.
 
 See the relevant [AOSP SettingsProvider implementation](https://android.googlesource.com/platform/frameworks/base/+/master/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java) and Android's [`WRITE_SETTINGS` documentation](https://developer.android.com/reference/android/provider/Settings.System#canWrite(android.content.Context)).
 
@@ -70,20 +70,30 @@ Android 14 refuses to install apps that target SDK 22 or lower, and Android 15/1
 The block is an installer policy, not a runtime one, and adb can bypass it:
 
 ```bash
-adb install --bypass-low-target-sdk-block DuoVolumeLink-lite.apk
+adb install --bypass-low-target-sdk-block DuoVolumeLink-v0.2.4-lite.apk
 ```
 
 With no computer to hand, the same works on the device from any shell with adb privileges (for example a Shizuku or wireless-debugging terminal app):
 
 ```bash
-pm install --bypass-low-target-sdk-block /data/local/tmp/DuoVolumeLink-lite.apk
+pm install --bypass-low-target-sdk-block /data/local/tmp/DuoVolumeLink-v0.2.4-lite.apk
 ```
 
-Once installed this way Lite needs nothing else running, and keeps working across reboots. Android shows a one-off "built for an older version of Android" notice on first launch. If you would rather not use adb at all, install Standard instead.
+Replace the file name with the one you downloaded from the [latest release](https://github.com/ctyldsley/DuoVolumeLink/releases/latest). Once installed this way Lite needs nothing else running, and keeps working across reboots. Android shows a one-off "built for an older version of Android" notice on first launch. If you would rather not use adb at all, install Standard instead.
+
+### Uninstalling Lite
+
+Android deletes a `Settings.System` entry when the app that last wrote it is uninstalled. After Lite has changed the lower-screen volume, uninstalling it therefore removes `secondary_screen_volume_level` from the device. Reinstalling Lite or Standard and changing the volume writes it again. To restore it by hand, run:
+
+```bash
+adb shell settings put system secondary_screen_volume_level 8
+```
+
+Updating Lite to a newer release does not trigger this; only a full uninstall does.
 
 ## Getting started
 
-1. Install an edition: Lite on the AYN Thor; on the Retroid Pocket Duo either Standard, or Lite through adb as described above.
+1. Install an edition: on the Retroid Pocket Duo, Lite through adb as described above, or Standard; on the AYN Thor, Lite.
 2. Open Duo Volume Link and allow modify-system-settings access.
 3. Enable the app's key service in Android Accessibility settings.
 4. Open **Settings → Key & controls** and decide whether a hardware key should switch modes.

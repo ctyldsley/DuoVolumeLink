@@ -1,6 +1,6 @@
 # Duo Volume Link
 
-> 本项目是 [Thor Volume Link](https://github.com/pth2000/ThorVolumeLink) 的分支，增加了对 Retroid Pocket Duo / Duo Lite（Android 15/16）的实验性支持。Android 14 及以上无法直接安装 Lite，需要使用 `adb install --bypass-low-target-sdk-block`，或改用 Standard 版本。完整说明见 [English README](README.md)。
+> 本项目是 [Thor Volume Link](https://github.com/pth2000/ThorVolumeLink) 的分支，增加了对 Retroid Pocket Duo / Duo Lite（Android 15/16）的支持。Lite 版本已在 Retroid Pocket Duo（Android 16，固件 `RPDuo_V1.0.0.108_20261018`）上实机验证可用；Standard 版本和 Duo Lite 尚未验证。Android 14 及以上无法直接安装 Lite，需要使用 `adb install --bypass-low-target-sdk-block`，或改用 Standard 版本。卸载 Lite 会同时删除系统中的 `secondary_screen_volume_level` 设置项，重新安装并调节音量即可恢复。完整说明见 [English README](README.md)。
 
 简体中文 · [English](README.md)
 
@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-5.0%2B-3DDC84?logo=android&logoColor=white)](#版本区别)
 
-Duo Volume Link 是一款面向双屏 Android 掌机 AYN Thor 的开源音量控制工具。它可以让实体音量键控制主屏、副屏，或按相对比例联动两块屏幕的音量。
+Duo Volume Link 是一款面向双屏 Android 掌机 Retroid Pocket Duo / Duo Lite 和 AYN Thor 的开源音量控制工具。它可以让实体音量键控制主屏、副屏，或按相对比例联动两块屏幕的音量。
 
 ## 功能特性
 
@@ -35,10 +35,10 @@ Duo Volume Link 是一款面向双屏 Android 掌机 AYN Thor 的开源音量控
 
 | 版本 | 包名 | 最低 Android 版本 | 副屏音量后端 | 适用场景 |
 | --- | --- | ---: | --- | --- |
-| Lite | `io.github.duovolume.control.lite` | Android 5.0 / API 21 | `Settings.System` 兼容路径 | AYN Thor 原厂固件用户，推荐使用 |
-| Standard | `io.github.duovolume.control` | Android 6.0 / API 23 | 授权后端 | 倾向现代目标 SDK 的用户 |
+| Lite | `io.github.duovolume.control.lite` | Android 5.0 / API 21 | `Settings.System` 兼容路径 | Retroid Pocket Duo（已验证，需通过 adb 安装）和 AYN Thor 原厂固件用户，推荐使用 |
+| Standard | `io.github.duovolume.control` | Android 6.0 / API 23 | 授权后端 | 无法使用 adb 的 Retroid Pocket Duo 用户（尚未在 Duo 上验证），或倾向现代目标 SDK 的用户 |
 
-Lite 是面向 AYN Thor 原厂固件的推荐版本。它只需要 Android 的“修改系统设置”授权，无需配合其他应用或服务。Lite 有意将目标 SDK 保持在 22：AOSP 为目标版本不高于 Android 5.1 的应用保留了兼容路径，允许它们修改自定义 `Settings.System` 项；目标 SDK 更高的应用则会被系统拒绝。AYN 的 `secondary_screen_volume_level` 正是厂商自定义设置项。
+Lite 是面向 Retroid Pocket Duo 和 AYN Thor 原厂固件的推荐版本。它只需要 Android 的“修改系统设置”授权，无需配合其他应用或服务。Lite 有意将目标 SDK 保持在 22：AOSP 为目标版本不高于 Android 5.1 的应用保留了兼容路径，允许它们修改自定义 `Settings.System` 项；目标 SDK 更高的应用则会被系统拒绝。`secondary_screen_volume_level` 正是这两款设备上的厂商自定义设置项。
 
 相关依据可参阅 [AOSP SettingsProvider 实现](https://android.googlesource.com/platform/frameworks/base/+/master/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java)和 Android 官方的 [`WRITE_SETTINGS` 文档](https://developer.android.com/reference/android/provider/Settings.System#canWrite(android.content.Context))。
 
@@ -46,7 +46,7 @@ Standard 保持现代目标 SDK，通过额外授权完成相同的副屏音量�
 
 ## 使用方法
 
-1. 优先安装 Lite。
+1. 优先安装 Lite（在 Retroid Pocket Duo 上需通过 adb 安装）。
 2. 打开 Duo Volume Link，允许应用修改系统设置。
 3. 在 Android 无障碍设置中启用本应用的按键服务。
 4. 打开**设置 → 按键与控制**，选择是否使用实体键切换模式。
@@ -69,14 +69,14 @@ Standard 保持现代目标 SDK，通过额外授权完成相同的副屏音量�
 
 ## 实现原理
 
-AYN Thor 固件通过以下设置项提供副屏音量：
+AYN Thor 和 Retroid Pocket Duo 固件均通过以下设置项提供副屏音量：
 
 ```text
 Settings.System: secondary_screen_volume_level
 范围：0–15
 ```
 
-跟随焦点模式监听 AYN 固件提供的 `Settings.System: focus_change`。该值在焦点切换时递增。设备重启后，应用会作废旧的奇偶映射，并通过可靠的屏幕信息完成一次校正；Standard 可使用当前系统焦点状态，应用窗口和无障碍界面事件则作为补充来源。校正成功后，到下次重启前只需根据 `focus_change` 判断目标屏幕。尚未获得可靠屏幕信息时会安全回退到主屏，按住音量键期间则会锁定按下时的目标屏幕。
+跟随焦点模式监听固件提供的 `Settings.System: focus_change`。该值在焦点切换时递增。设备重启后，应用会作废旧的奇偶映射，并通过可靠的屏幕信息完成一次校正；Standard 可使用当前系统焦点状态，应用窗口和无障碍界面事件则作为补充来源。校正成功后，到下次重启前只需根据 `focus_change` 判断目标屏幕。尚未获得可靠屏幕信息时会安全回退到主屏，按住音量键期间则会锁定按下时的目标屏幕。
 
 Lite 通过 Android 的目标 SDK 兼容行为访问该设置；Standard 可通过官方 Shizuku UserService，或由 [libsu](https://github.com/topjohnwu/libsu) 管理的 Root Shell 读写，但不会同时使用两种后端。模式、偏好、无障碍服务和界面等共用代码位于 `app/src/main`，后端实现分别位于 `app/src/lite` 与 `app/src/standard`。
 
