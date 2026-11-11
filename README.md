@@ -12,7 +12,13 @@ It is a fork of [Thor Volume Link](https://github.com/pth2000/ThorVolumeLink) by
 
 ## Retroid Pocket Duo status
 
-Retroid Pocket Duo support is **experimental and not yet confirmed on hardware**. The Duo firmware appears to share parts of its dual-screen assistant with the AYN Thor, so this fork assumes it also stores the lower-screen volume in `Settings.System: secondary_screen_volume_level`. The main screen shows whether that setting was found.
+The Lite edition is **confirmed working on a Retroid Pocket Duo** running Android 16 (firmware `RPDuo_V1.0.0.108_20261018`), installed through adb as described below. On that device:
+
+- The lower-screen volume is stored in `Settings.System: secondary_screen_volume_level`, the same key and 0-15 range as on the AYN Thor, and writing it changes the volume audibly.
+- Secondary and Linked modes control the lower-screen volume from the hardware volume keys.
+- `Settings.System: focus_change` exists and its parity tracks the focused screen, as on the Thor.
+
+Not yet confirmed: the Standard edition (Shizuku or Root) on the Duo, Follow focus mode in everyday use, and the Retroid Pocket Duo Lite (Android 15). Standard is expected to work with Shizuku, because the same `settings put` shell write it relies on was tested over adb on the device above.
 
 If the secondary volume shows as unavailable on your device, open **About**, tap the version seven times, then open **Settings → Developer tools** and use **Copy report**. The report lists the device model, Android version and every volume/screen-related `Settings.System` key the firmware exposes; attach it to an issue so the right key can be added.
 
@@ -100,7 +106,7 @@ The accessibility service filters hardware keys and uses only the display ID att
 
 ## How it works
 
-AYN Thor firmware (and, as far as is known, the Retroid Pocket Duo firmware) exposes the secondary-screen volume through:
+AYN Thor firmware and Retroid Pocket Duo firmware both expose the secondary-screen volume through:
 
 ```text
 Settings.System: secondary_screen_volume_level
